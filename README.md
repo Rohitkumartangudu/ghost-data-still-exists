@@ -1,3 +1,16 @@
+> **Solution - setup and run.** Full details: [`code/README.md`](code/README.md).
+>
+> ```bash
+> python -m venv .venv && .venv\Scripts\activate        # macOS/Linux: source .venv/bin/activate
+> pip install -r code/requirements.txt
+> # create .env at the repository root containing: ANTHROPIC_API_KEY=<your key>
+> python code/main.py                                    # 518 requests -> output.csv
+> python code/validate.py output.csv                     # submission checklist
+> python code/main.py --samples && python code/evaluation/score.py --pred output_samples.csv
+> ```
+>
+> Reports: [`code/evaluation/evaluation_report.md`](code/evaluation/evaluation_report.md), [`code/evaluation/usage_report.md`](code/evaluation/usage_report.md).
+
 # HackerRank Orchestrate - October 2026
 
 ## Ghost Data Still Exists

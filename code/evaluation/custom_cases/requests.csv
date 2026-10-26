@@ -1,0 +1,5 @@
+case_id,email,requested_at,reported_status,reported_at,audit_at,request_text
+custom_01,LEILA.HADDAD@YAHOO.COM,2026-08-27T14:17:00Z,COMPLETE,2026-08-28T09:03:00Z,2026-09-08T13:40:00Z,"I deleted this account and received a confirmation, but the same email address is still recognized. Please remove any remaining copy of my profile."
+custom_02,y.tanaka32@gmail.com,2026-09-04T12:00:00Z,COMPLETE,2026-09-06T12:00:00Z,2026-10-01T12:00:00Z,"이 이메일 주소에 연결된 계정의 영구 삭제를 요청합니다. 현재 및 과거 식별자를 확인해 주시고, 확인이 끝나면 결과를 알려 주세요."
+custom_03,jonas.berg@outlook.com,2026-08-29T06:51:00Z,PARTIALLY_COMPLETE,2026-08-30T17:12:00Z,2026-09-10T09:15:00Z,Please stop sending me promotional emails and remove me from your marketing lists only. I want to keep my account active.
+custom_04,leila.haddad@yahoo.com,2026-08-27T14:17:00Z,COMPLETE,2026-08-28T09:03:00Z,2026-09-08T13:40:00Z,The phone number on my profile is out of date. Please update it and keep my account and order history as they are.

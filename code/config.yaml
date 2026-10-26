@@ -1,0 +1,62 @@
+# All paths are relative to the repository root.
+paths:
+  dataset: dataset
+  output: output.csv
+  cache: code/.cache
+
+# Model per agent. Cheapest model that holds quality on the sample scorer (Phase D measurement);
+# override with env MODEL_<AGENT>, e.g. MODEL_INVESTIGATOR=claude-sonnet-5-5.
+models:
+  intake: claude-haiku-5-5
+  intake_review: claude-haiku-5-5    # second opinion when intake and the lexical check disagree
+  extraction: claude-haiku-5-5       # vision, run once per image (cached)
+  investigator: claude-haiku-5-5
+  planner: claude-haiku-5-5
+  reviewer: claude-haiku-5-5
+  # Escalation: only for a case whose plan still violates the contract after review.
+  investigator_escalated: claude-sonnet-5-5
+  planner_escalated: claude-sonnet-5-5
+
+# output_config.effort per agent (thinking is always on for these models; effort controls depth/cost).
+effort:
+  intake: low
+  intake_review: low
+  extraction: medium
+  investigator: medium
+  planner: medium
+  reviewer: low
+  investigator_escalated: medium
+  planner_escalated: medium
+
+llm:
+  max_tokens: 16000
+  max_tool_turns: 6
+  concurrency: 4
+  sdk_max_retries: 8      # SDK retries connection errors, 429 and 5xx with backoff
+  case_retries: 2         # re-run a case that still failed (completed calls are served from the cache)
+  max_review_rounds: 1
+  # always: reviewer on every case; on_issues: reviewer + revision only when the contract guardrail reports issues
+  review_mode: on_issues
+
+# USD per 1M tokens (Anthropic first-party list prices, 2026-10). Cache reads/writes priced via multipliers.
+pricing:
+  claude-haiku-5-5: {input: 0.10, output: 0.50}
+  claude-sonnet-5-5: {input: 2.00, output: 10.00}
+  claude-opus-5-5: {input: 4.00, output: 20.00}
+  cache_read_multiplier: 0.1
+  cache_write_multiplier: 1.25
+
+# Lexical cross-check for the intake agent (multilingual stems for "delete/erase/remove/close account").
+# Disagreement between this check and the intake agent triggers a second-opinion review.
+intake_lexicon: [delet, eras, remov, close, closing, supprim, suppression, effac, lösch, loesch, elimin,
+  exclu, apag, borr, 削除, 消去, 삭제, 탈퇴]
+
+# Linking heuristics (derived in Plan.md §6.3; tunable, not case-specific).
+linking:
+  # Rules-table category of the subject's primary record (the workflow job deletes it first).
+  primary_record_category: USER_PROFILE
+  # Window (minutes, relative to reported_at) in which the workflow job's
+  # primary-profile deletion is searched for when no grounded link exists.
+  job_account_window: [-90, 15]
+  # Window (minutes, relative to reported_at) for follow-up deletion-worker actions.
+  job_followup_window: [-45, 180]
